@@ -7,10 +7,12 @@ Here are the SDK commands you'll use immediately:
 * atlas-debug -- same as atlas-run, but allows a debugger to attach at port 5005
 * atlas-help  -- prints description for all commands in the SDK
 * atlas-package -- Generate the compiled jar file
+* atlas-package --fail-never -- Produce your JAR without failing the build, even if there are errors
 
 Full documentation is always available at:
 
-https://developer.atlassian.com/display/DOCS/Introduction+to+the+Atlassian+Plugin+SDK
+* https://developer.atlassian.com/display/DOCS/Introduction+to+the+Atlassian+Plugin+SDK
+* https://developer.atlassian.com/server/framework/atlassian-sdk/atlas-package/
 
 
 

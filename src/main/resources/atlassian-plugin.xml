@@ -1,24 +1,46 @@
-<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
-    <plugin-info>
-        <description>${project.description}</description>
-        <version>${project.version}</version>
-        <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="plugin-icon">images/pluginIcon.png</param>
-        <param name="plugin-logo">images/pluginLogo.png</param>
-    </plugin-info>
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <!-- add our i18n resource -->
-    <resource type="i18n" name="i18n" location="littlerepor"/>
-    
-    <!-- add our web resources -->
-    <web-resource key="littlerepor-resources" name="littlerepor Web Resources">
-        <dependency>com.atlassian.auiplugin:ajs</dependency>
-        
-        <resource type="download" name="littlerepor.css" location="/css/littlerepor.css"/>
-        <resource type="download" name="littlerepor.js" location="/js/littlerepor.js"/>
-        <resource type="download" name="images/" location="/images"/>
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
 
-        <context>littlerepor</context>
-    </web-resource>
-    
+  </plugin-info>  
+  
+  <!-- import from the product container -->
+  <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.TemplateRenderer" filter=""/>
+  <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager" filter=""/>
+  <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider" filter=""/>
+  <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory" filter=""/>
+
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="littlerepor"/>  
+  <!-- add our web resources -->  
+  <web-resource key="littlerepor-resources" name="littlerepor Web Resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <resource type="download" name="littlerepor.css" location="/css/littlerepor.css"/>  
+    <resource type="download" name="littlerepor.js" location="/js/littlerepor.js"/>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>littlerepor</context> 
+  </web-resource>  
+  <!--
+  <web-section name="littlerepor" i18n-name-key="littlerepor.name" key="littlerepor" location="littlerepor" weight="1000"> 
+    <description key="littlerepor.description">The littlereport Plugin</description>  
+    <label key="littlerepor.label"/>
+  </web-section>  -->  
+  <web-item name="littlereport" i18n-name-key="littlereport.name" key="littlereport" section="system.top.navigation.bar" weight="1000"> 
+    <description key="littlereport.description">The littlereport Plugin</description>  
+    <label key="littletimereport.label"/>  
+    <link linkId="littlereport-link">/plugins/servlet/littlerepor</link> 
+  </web-item>  
+  <servlet name="littlerepor" i18n-name-key="littlerepor.name" key="littlerepor" class="little.report.servlet.littlerepor"> 
+    <description key="littlerepor.description">The littlerepor Plugin</description>  
+    <url-pattern>/littlerepor</url-pattern> 
+  </servlet>
 </atlassian-plugin>
+<!--
+    http://localhost:2990/jira/plugins/servlet/littlerepor
+ -->
