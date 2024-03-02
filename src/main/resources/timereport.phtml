@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>Little time report</title>
+    <meta name="decorator" content="atl.general">
+
+    <style type="text/css">
+      .repot-field-group
+      {
+        width: 100%;
+        float: left;
+        margin-top: 12px;        
+      }
+
+      .repot-field-group * {
+        float: left;
+        margin-left: 12px;
+      }
+
+      .repot-field-group > label
+      {
+        margin-top: 4px;
+      }
+
+      .repot-field-group .button
+      {
+        margin-left: 21px !important;
+      }
+
+      .repot-field-group .icon-date
+      {
+        margin-top: 7px;
+        margin-left: 0;
+      }
+    </style>
+
+  </head>
+  <body>
+    <form id="admin" class="aui" action="" method="POST">
+
+        <div class="repot-field-group">
+            <label for="selUser">User:</label>
+            <select name="user" id="selUser">
+              <option value="0">All user</option>
+              #foreach ($user in $users)
+                #set ($selected="");
+                #if ($!userId == $user.getId())
+                  #set ($selected="selected");
+                #end
+
+              <option value="$user.getId()" $selected>$user.getDisplayName()</option>
+              #end
+            </select>
+
+            <label for="report-start-date-picker">Start date:</label>
+            <input class="text medium-field" id="report-start-date-picker" name="startDate" type="text" value="$!startDate" />
+            <span id="report-start-date-icon" class="aui-icon icon-date">Select a date</span>
+
+            <label for="report-end-date-picker">End date:</label>
+            <input class="text medium-field" id="report-end-date-picker" name="endDate" type="text" value="$!endDate" />
+            <span id="report-end-date-icon" class="aui-icon icon-date">Select a date</span>
+    
+            <input type="submit" value="Create report $!user" class="button">
+        </div>
+
+
+    </form>
+
+    <script type="text/javascript">
+        Calendar.setup({
+            firstDay     : 0,       // first day of the week
+            inputField   : "report-start-date-picker",     // id of the input field
+            button       : "report-start-date-icon",  // trigger for the calendar (button ID)
+            align        : "Br",                                                            // alignment (defaults to "Bl")
+            singleClick  : true,
+            useISO8601WeekNumbers   : false, // use ISO8601 date/time standard
+            
+            showsTime    : "false",
+            ifFormat     : "%Y-%m-%d",
+            timeFormat   : "12"
+        });
+
+        Calendar.setup({
+            firstDay     : 0,       // first day of the week
+            inputField   : "report-end-date-picker",     // id of the input field
+            button       : "report-end-date-icon",  // trigger for the calendar (button ID)
+            align        : "Br",                                                            // alignment (defaults to "Bl")
+            singleClick  : true,
+            useISO8601WeekNumbers   : false, // use ISO8601 date/time standard
+            
+            showsTime    : "false",
+            ifFormat     : "%Y-%m-%d",
+            timeFormat   : "12"
+        });
+    </script>    
+  </body>
+</html>

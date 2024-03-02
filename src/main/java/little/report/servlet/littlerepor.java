@@ -54,9 +54,10 @@ public class littlerepor extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException
     {
-        // resp.setContentType("text/html");
-        // resp.getWriter().write("<html><body>Hello World</body></html>");
-        
+        String startDate = req.getParameter("startDate");
+        String endDate = req.getParameter("endDate");                  
+        String userId = req.getParameter("user");                  
+          
         UserSearchService userSearchService = ComponentAccessor.getComponent(UserSearchService.class);
         UserSearchParams userSearchParamsActive = (new UserSearchParams.Builder()).allowEmptyQuery(true).includeActive(true).includeInactive(false).maxResults(100000).build();
         UserSearchParams userSearchParamsInactive = (new UserSearchParams.Builder()).allowEmptyQuery(true).includeActive(false).includeInactive(true).maxResults(100000).build();
@@ -77,8 +78,6 @@ public class littlerepor extends HttpServlet{
         try{
             SqlHelper sqlHelper = SqlHelper.getInstance();
             ResultSet rs = null;
-            // Connection newCon = ConnectionFactory.getConnection("default");
-            // Statement stmt = newCon.createStatement();
             SqlProcessorIct sqlProcessor = sqlHelper.getSqlProcessor();
             Statement stmt = sqlProcessor.createStatement();
             rs = stmt.executeQuery("SELECT * FROM jiraissue ORDER BY `ID` DESC LIMIT 2");
@@ -88,32 +87,28 @@ public class littlerepor extends HttpServlet{
             }
 
             rs.close();
-            //stmt.close();
             sqlProcessor.close();
 
-        // } catch (GenericEntityException var23) {
-        //     if (log.isDebugEnabled()) {
-        //         log.error(var23.getMessage(), var23);
-        //     }
-
-        //     throw new RuntimeException(var23);
-        } catch (SQLException var24) {
+        } catch (SQLException e) {
             if (log.isDebugEnabled()) {
-                log.error(var24.getMessage(), var24);
+                log.error(e.getMessage(), e);
             }
 
-            throw new RuntimeException(var24);
-        } finally {
+            throw new RuntimeException(e);
+        } 
 
-        }
-
-		context.put("name", "name name name");
-		context.put("age", "12122");
 		context.put("users", users);
-		context.put("issues", issues);
+		context.put("startDate", startDate);
+		context.put("endDate", endDate);
+		context.put("userId", userId);
         
         response.setContentType("text/html;charset=utf-8");
-        templateRenderer.render("timereport.vm", context, response.getWriter());
+        templateRenderer.render("timereport.phtml", context, response.getWriter());
     }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        this.doGet(req, res);
+     }
+  
 
 }
