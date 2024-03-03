@@ -35,3 +35,6 @@ To install plugin:
       * For Two Factor, it has two-factor in the name.
     * Add the plugin’s jar file at the same location that you want to install.
     * Restart the server
+    * 
+Screenshoot:
+![image](https://github.com/hacrot3000/jira_timereport/assets/4023088/9b586d7a-8b09-4003-a124-ed0751355cee)
