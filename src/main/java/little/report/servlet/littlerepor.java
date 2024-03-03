@@ -166,7 +166,8 @@ public class littlerepor extends HttpServlet{
                         "LEFT JOIN jiraissue i on w.issueid = i.id " +
                         "LEFT JOIN project p on p.ID = i.PROJECT " +
                         "WHERE w.STARTDATE BETWEEN '" + startDate + " 00:00:00' AND '" + endDate + " 23:59:59' " +
-                        "GROUP BY w.AUTHOR, p.pkey " +
+                        usersWhere +
+                        "GROUP BY w.AUTHOR, p.pkey, p.pname " +
                         "ORDER BY p.pkey ";
                 }
 

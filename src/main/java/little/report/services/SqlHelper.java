@@ -15,7 +15,7 @@ import org.ofbiz.core.entity.jdbc.SQLProcessor;
 public class SqlHelper {
    private static final Long ORACLE_EXPRESSION_LIMIT_NUM = 1000L;
    private String sqlQuotes;
-   private String schemaName = "";
+   // private String schemaName = "";
    private boolean isOracle;
    private boolean isMssql;
    private boolean isPostgres;
@@ -109,11 +109,11 @@ public class SqlHelper {
       DelegatorInterface delegator = (DelegatorInterface)ComponentAccessor.getComponentOfType(DelegatorInterface.class);
       String helperName = delegator.getGroupHelperName("default");
       SQLProcessor sqlProcessor = new SQLProcessor(helperName);
-      DatasourceInfo datasourceInfo = EntityConfigUtil.getInstance().getDatasourceInfo(helperName);
-      String schema = datasourceInfo.getSchemaName();
-      if (!schema.isEmpty()) {
-         this.schemaName = datasourceInfo.getSchemaName() + ".";
-      }
+      // DatasourceInfo datasourceInfo = EntityConfigUtil.getInstance().getDatasourceInfo(helperName);
+      // String schema = datasourceInfo.getSchemaName();
+      // if (schema != null && !schema.isEmpty()) {
+      //    this.schemaName = datasourceInfo.getSchemaName() + ".";
+      // }
 
       return sqlProcessor;
    }
@@ -161,9 +161,9 @@ public class SqlHelper {
       return sqlProcessorIct;
    }
 
-   public String getSchemaName() {
-      return this.schemaName;
-   }
+   // public String getSchemaName() {
+   //    return this.schemaName;
+   // }
 
    public boolean isOracle() {
       return this.isOracle;

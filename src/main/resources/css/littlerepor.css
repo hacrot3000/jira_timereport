@@ -42,6 +42,11 @@
     border-collapse: collapse;    
   }
   
+  #reportTable td
+  {
+    color: black;
+  }
+  
   #reportTable td, #reportTable th {
     border: 1px solid #ddd;
     padding: 8px;
@@ -61,6 +66,8 @@
     width: auto;
     clear: none;
     padding: auto;
+    display: table-cell !important;
+    color: white;
   }
 
   #reportTable td.allignright
