@@ -3,7 +3,7 @@
     <title>Little time report</title>
     <meta name="decorator" content="atl.general">
 
-    <link type='text/css' rel='stylesheet' href='$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.css?v=3' media='all'>
+    <link type='text/css' rel='stylesheet' href='$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.css?v=4' media='all'>
 
   </head>
   <body>
@@ -24,12 +24,12 @@
       </div>
     </div>
   </div>
-
+  <div id="report-content">
     <form id="admin" class="aui" action="" method="POST">
 
         <div class="repot-field-group">
             <label for="selUser">User: $!userId</label>
-            <select name="user" id="selUser" multiple>
+            <select name="user" id="selUser" multiple class="text medium-field">
               #foreach ($user in $users)
                 #set ($selected="");
                 #set ($cUserName=$user.getUsername());
@@ -51,9 +51,20 @@
             <input class="text medium-field" id="report-end-date-picker" name="endDate" type="text" value="$!endDate" />
             <span id="report-end-date-icon" class="aui-icon icon-date">Select a date</span>
     
+            <label for="report-period">Report period:</label>
+            <select id="report-period" class="text medium-field">
+                <option value="1">Custom</option>
+                <option value="2">Previous month</option>
+                <option value="3">Previous week</option>
+                <option value="4">Current week</option>
+                <option value="5">Current Month</option>
+                <option value="6">Last 7 days</option>
+                <option value="7">Last 30 days</option>
+            </select>
+
             <label for="report-kind">Report type:</label>
-            <select name="kind" id="report-kind">
-                <option value="1">List by action</option>
+            <select name="kind" id="report-kind" class="text medium-field">
+                <option value="1">List all actions</option>
                 #if ($kind == 2)
                 <option value="2" selected>Summary by user</option>
                 #else
@@ -67,7 +78,7 @@
 
 
     </form>
-
+  </div>
     #if ($takingSearch)
       #if ($issues.isEmpty())
       <div id="issue-content">
@@ -194,6 +205,43 @@
                 },
             ]
         });
+
+        jQuery("#report-period").change(function(){
+          var selected = parseInt($(this).val());
+          switch (selected)
+          {
+            case 1:
+              break;
+            case 2:
+              setTimeToText("report-start-date-picker", GetLastMonthStart());
+              setTimeToText("report-end-date-picker", GetLastMonthEnd());
+              break;
+            case 3:
+              setTimeToText("report-start-date-picker", GetLastWeekStart());
+              setTimeToText("report-end-date-picker", GetLastWeekEnd());
+              break;
+            case 4:
+              setTimeToText("report-start-date-picker", GetWeekStart());
+              setTimeToText("report-end-date-picker", GetWeekEnd());
+              break;
+            case 5:
+              setTimeToText("report-start-date-picker", GetMonthStart());
+              setTimeToText("report-end-date-picker", GetMonthEnd());
+              break;
+            case 6:
+              setTimeToText("report-start-date-picker", GetLastXDays(7));
+              setTimeToText("report-end-date-picker", new Date());
+              break;
+            case 7:
+              setTimeToText("report-start-date-picker", GetLastXDays(30));
+              setTimeToText("report-end-date-picker", new Date());
+              break;
+          }
+        });
+
+        jQuery("#report-period").val(6);
+        jQuery("#report-period").change();
+
       }(jQuery));
 
     </script>

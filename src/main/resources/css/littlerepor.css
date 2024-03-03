@@ -36,6 +36,13 @@
 
 }
 
+#report-content
+{
+    width: 100%;
+    float: left;
+    padding-bottom: 12px;
+}
+
 #reportTable
 {
     font-family: Arial, Helvetica, sans-serif;

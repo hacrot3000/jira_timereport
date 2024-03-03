@@ -223,25 +223,25 @@ public class littlerepor extends HttpServlet{
         }
 
 
-        if (startDate == null || startDate.isEmpty())
-        {
-            LocalDate now = LocalDate.now();
-            LocalDate earlier = now.minusMonths(1);
+        // if (startDate == null || startDate.isEmpty())
+        // {
+        //     LocalDate now = LocalDate.now();
+        //     LocalDate earlier = now.minusMonths(1);
             
-            int month = earlier.getMonth().getValue();
-            int year = earlier.getYear(); 
-            YearMonth yearMonthObject = YearMonth.of(year, month);
-            int daysInMonth = yearMonthObject.lengthOfMonth(); 
-            String months = month + "";
+        //     int month = earlier.getMonth().getValue();
+        //     int year = earlier.getYear(); 
+        //     YearMonth yearMonthObject = YearMonth.of(year, month);
+        //     int daysInMonth = yearMonthObject.lengthOfMonth(); 
+        //     String months = month + "";
 
-            if (month < 10)
-            {
-                months = "0" + months;
-            }
+        //     if (month < 10)
+        //     {
+        //         months = "0" + months;
+        //     }
 
-            startDate = year + "-" + months + "-01";
-            endDate = year + "-" + months + "-" + daysInMonth;
-        }
+        //     startDate = year + "-" + months + "-01";
+        //     endDate = year + "-" + months + "-" + daysInMonth;
+        // }
 		context.put("users", users);
 		context.put("startDate", startDate);
 		context.put("endDate", endDate);

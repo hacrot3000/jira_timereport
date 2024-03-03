@@ -10,3 +10,52 @@ c.name).on("keydown.multiselect",a.F.bind(a,"preset")).appendTo(a.s);b=d("<input
 this;this.g.modalHTML&&(this.A=d(this.g.modalHTML),this.A.on("click.multiselect",function(){a.m()}),this.A.insertBefore(this.i))},V:function(){var a=this;d("html").on("click.multiselect",function(){a.m()});this.j.on("click.multiselect",function(b){b.stopPropagation()})},W:function(){var a=this;this.u.on("click.multiselect",function(b){b.preventDefault();b.stopPropagation();a.D()})},T:function(){this.h.hide();this.u.removeAttr("for")},C:function(){d("html").trigger("click.multiselect");this.j.addClass(this.g.activeClass);
 if(this.g.positionMenuWithin&&this.g.positionMenuWithin instanceof d){var a=this.i.offset().left+this.i.outerWidth(),b=this.g.positionMenuWithin.offset().left+this.g.positionMenuWithin.outerWidth();a>b&&(this.i.css("width",b-this.i.offset().left),this.j.addClass(this.g.positionedMenuClass))}a=this.i.offset().top+this.i.outerHeight();b=d(window).scrollTop()+d(window).height();a>b-this.g.viewportBottomGutter?this.i.css({maxHeight:Math.max(b-this.g.viewportBottomGutter-this.i.offset().top,this.g.menuMinHeight),
 overflow:"scroll"}):this.i.css({maxHeight:"",overflow:""})},m:function(){this.j.removeClass(this.g.activeClass);this.j.removeClass(this.g.positionedMenuClass);this.i.css("width","auto")},D:function(){this.j.hasClass(this.g.activeClass)?this.m():this.C()},v:function(a){a.relatedTarget&&!d(a.relatedTarget).closest(this.j).length&&this.m()}});d.fn.multiSelect=function(a){return this.each(function(){d.data(this,"plugin_multiSelect")||d.data(this,"plugin_multiSelect",new h(this,a))})}})(jQuery);
+
+
+function GetLastMonthStart() {
+    return new Date(moment().subtract(1, 'months').startOf('month'));
+}
+function GetLastMonthEnd() {    
+    return new Date(moment().subtract(1, 'months').endOf('month'));
+}
+
+function GetLastWeekStart() {
+    return new Date(moment().subtract(1, 'weeks').startOf('isoWeek'));
+}
+
+function GetLastWeekEnd() {    
+    return new Date(moment().subtract(1, 'weeks').endOf('isoWeek'));
+}
+
+function GetLastXDays(num) {    
+    return new Date(moment().subtract(num, 'days'));
+}
+
+function GetWeekStart() {
+    return new Date(moment().startOf('isoWeek'));
+}
+function GetWeekEnd() {    
+    return new Date(moment().endOf('isoWeek'));
+}
+
+function GetMonthStart() {
+    return new Date(moment().startOf('month'));
+}
+function GetMonthEnd() {    
+    return new Date(moment().endOf('month'));
+}
+
+function setTimeToText(id, date)
+{
+    month = date.getMonth() + 1;
+    
+    if (month < 10)
+        month = "0" + month;
+
+    day = date.getDate()
+    if (day < 10)
+        day = "0" + day;
+
+    $("#" + id).val(date.getFullYear() + "-" + month + "-" + day);
+
+}
