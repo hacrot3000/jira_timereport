@@ -109,10 +109,13 @@ public class littlerepor extends HttpServlet{
         }
 
         Map<String, Object> context = Maps.newHashMap();
-        List<ReportItemData> issues = new ArrayList<ReportItemData>();
+        List<ReportItemData> issues = null;
 
         if (startDate != null && !startDate.isEmpty() )
         {
+            context.put("takingSearch", true);
+            issues = new ArrayList<ReportItemData>();
+
             startDate = this.formatDate(startDate);
             endDate = this.formatDate(endDate);
 
@@ -203,6 +206,10 @@ public class littlerepor extends HttpServlet{
 
                 throw new RuntimeException(e);
             } 
+        }
+        else
+        {
+            context.put("takingSearch", false);
         }
 
 

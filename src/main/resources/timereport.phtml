@@ -68,48 +68,60 @@
 
     </form>
 
-    #if (!$issues.isEmpty())
-      <table id="reportTable">
-        <tr>
-          <th class="aui-header">Project key</th>
-          <th class="aui-header">Project name</th>
-          <th class="aui-header">Author</th>
-          #if ($kind == 1)
-          <th class="aui-header">Date</th>
-          <th class="aui-header">Item summary</th>
-          <th class="aui-header">Work log</th>
-          #end
-          <th class="aui-header">Worked time</th>
-        </tr>
-
-        #foreach ($issue in $issues)
-           #set ($WorkLogBodyWithHtml = $issue.getWorkLogBody())
+    #if ($takingSearch)
+      #if ($issues.isEmpty())
+      <div id="issue-content">
+        <div class="issue-body-content issue-error-content">
+          <div class="issue-error">
+              <span class="error-image error-image-canNotBeViewed"></span>
+              <h1>No data found</h1>
+              <p>Please recheck your search condition. If you think this is an error, please <a id="footer-report-problem-link" target="_blank" rel="nofollow" href="https://github.com/hacrot3000/jira_timereport/issues">report this problem here</a></p>
+          </div>
+        </div>
+      </div>
+      #else
+        <table id="reportTable">
           <tr>
-            <td>$issue.getProjectKey()</td>
-            <td>$issue.getProjectName()</td>
-            <td>$issue.getAuthor()</td>
+            <th class="aui-header">Project key</th>
+            <th class="aui-header">Project name</th>
+            <th class="aui-header">Author</th>
             #if ($kind == 1)
-            <td class="allignright">$issue.getStartDate()</td>
-            <td>$issue.getItemSummary()</td>
-            <td>$WorkLogBodyWithHtml</td>
+            <th class="aui-header">Date</th>
+            <th class="aui-header">Item summary</th>
+            <th class="aui-header">Work log</th>
             #end
-            <td class="allignright">$issue.getTimeWorked()</td>
-          </tr>          
-        #end
-        <tr>
-        #if ($kind == 1)
-            <td class="allignright report-strong" colspan="6">
-        #else
-        <td class="allignright report-strong" colspan="3">
-        #end
-              Total works time:</td>
-            <td class="allignright report-strong">$totalHourStr</td>
-          </tr>          
-      </table>
+            <th class="aui-header">Worked time</th>
+          </tr>
 
+          #foreach ($issue in $issues)
+            #set ($WorkLogBodyWithHtml = $issue.getWorkLogBody())
+            <tr>
+              <td>$issue.getProjectKey()</td>
+              <td>$issue.getProjectName()</td>
+              <td>$issue.getAuthor()</td>
+              #if ($kind == 1)
+              <td class="allignright">$issue.getStartDate()</td>
+              <td>$issue.getItemSummary()</td>
+              <td>$WorkLogBodyWithHtml</td>
+              #end
+              <td class="allignright">$issue.getTimeWorked()</td>
+            </tr>          
+          #end
+          <tr>
+          #if ($kind == 1)
+              <td class="allignright report-strong" colspan="6">
+          #else
+          <td class="allignright report-strong" colspan="3">
+          #end
+                Total works time:</td>
+              <td class="allignright report-strong">$totalHourStr</td>
+            </tr>          
+        </table>
+
+      #end
     #end
 
-    <footer id="footer" role="contentinfo">
+    <footer id="footer" role="contentinfo" class="littlerepor">
       <section class="footer-body">
           <ul class="atlassian-footer">
             <li>
