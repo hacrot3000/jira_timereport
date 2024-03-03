@@ -75,9 +75,9 @@
           <th class="aui-header">Project name</th>
           <th class="aui-header">Author</th>
           #if ($kind == 1)
+          <th class="aui-header">Date</th>
           <th class="aui-header">Item summary</th>
           <th class="aui-header">Work log</th>
-          <th class="aui-header">Date</th>
           #end
           <th class="aui-header">Worked time</th>
         </tr>
@@ -89,9 +89,9 @@
             <td>$issue.getProjectName()</td>
             <td>$issue.getAuthor()</td>
             #if ($kind == 1)
+            <td class="allignright">$issue.getStartDate()</td>
             <td>$issue.getItemSummary()</td>
             <td>$WorkLogBodyWithHtml</td>
-            <td class="allignright">$issue.getStartDate()</td>
             #end
             <td class="allignright">$issue.getTimeWorked()</td>
           </tr>          
@@ -162,7 +162,7 @@
             presets: [
                 {
                     name: 'All users',
-                    all: true
+                    options: []
                 },
                 {
                     name: 'Active users',

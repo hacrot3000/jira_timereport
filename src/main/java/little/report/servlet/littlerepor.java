@@ -55,13 +55,44 @@ public class littlerepor extends HttpServlet{
 		this.pluginSettingsFactory = pluginSettingsFactory;
 	}
 
+    private String formatDate(String strDate)
+    {
+        String[] arrOfStr = strDate.split("-", 3);
+        int check;
+
+        check = Integer.parseInt(arrOfStr[1]);
+        if (check < 10)
+            arrOfStr[1] = "0" + check;
+        else
+            arrOfStr[1] = "" + check;
+
+        check = Integer.parseInt(arrOfStr[2]);
+        if (check < 10)
+            arrOfStr[2] = "0" + check;
+        else
+            arrOfStr[2] = "" + check;
+    
+        return Integer.parseInt(arrOfStr[0]) + "-" + arrOfStr[1] + "-" + arrOfStr[2];
+
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException
     {
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");                  
-        String userIds[] = req.getParameterValues("user");                  
-        int kind = Integer.parseInt(req.getParameter("kind"));
+        String userIds[] = req.getParameterValues("user");
+        String kings = req.getParameter("kind");
+        int kind;
+        
+        if (kings == null) 
+        {
+            kind = 1;
+        }
+        else
+        {
+            kind = Integer.parseInt(req.getParameter("kind"));
+        }
           
         UserSearchService userSearchService = ComponentAccessor.getComponent(UserSearchService.class);
         UserSearchParams userSearchParamsActive = (new UserSearchParams.Builder()).allowEmptyQuery(true).includeActive(true).includeInactive(false).maxResults(100000).build();
@@ -82,10 +113,8 @@ public class littlerepor extends HttpServlet{
 
         if (startDate != null && !startDate.isEmpty() )
         {
-            String[] arrOfStr = startDate.split("-", 3);
-            startDate = Integer.parseInt(arrOfStr[0]) + "-" + Integer.parseInt(arrOfStr[1]) + "-" + Integer.parseInt(arrOfStr[2]);
-            arrOfStr = endDate.split("-", 3);
-            endDate = Integer.parseInt(arrOfStr[0]) + "-" + Integer.parseInt(arrOfStr[1]) + "-" + Integer.parseInt(arrOfStr[2]);
+            startDate = this.formatDate(startDate);
+            endDate = this.formatDate(endDate);
 
             try{
                 SqlHelper sqlHelper = SqlHelper.getInstance();
@@ -94,6 +123,26 @@ public class littlerepor extends HttpServlet{
                 Statement stmt = sqlProcessor.createStatement();
 
                 String sql;
+
+                String usersWhere = "";
+
+                if (userIds != null && userIds.length > 0) 
+                {
+
+                    for (String userid : userIds) 
+                    { 
+                        if (usersWhere.isEmpty())
+                        {
+                            usersWhere = "w.AUTHOR = '" + userid.replaceAll("'", "") + "'";
+                        }
+                        else
+                        {
+                            usersWhere += " OR w.AUTHOR = '" + userid.replaceAll("'", "") + "'";
+                        }
+                            
+                    }
+                    usersWhere = " AND (" + usersWhere + ") ";
+                }
                 
                 if (kind == 1)
                 {
@@ -103,6 +152,7 @@ public class littlerepor extends HttpServlet{
                         "LEFT JOIN jiraissue i on w.issueid = i.id " +
                         "LEFT JOIN project p on p.ID = i.PROJECT " +
                         "WHERE w.STARTDATE BETWEEN '" + startDate + " 00:00:00' AND '" + endDate + " 23:59:59' " +
+                        usersWhere +
                         "ORDER BY w.STARTDATE, p.pkey";
                 }
                 else
