@@ -15,7 +15,6 @@ import org.ofbiz.core.entity.jdbc.SQLProcessor;
 public class SqlHelper {
    private static final Long ORACLE_EXPRESSION_LIMIT_NUM = 1000L;
    private String sqlQuotes;
-   // private String schemaName = "";
    private boolean isOracle;
    private boolean isMssql;
    private boolean isPostgres;
@@ -109,11 +108,6 @@ public class SqlHelper {
       DelegatorInterface delegator = (DelegatorInterface)ComponentAccessor.getComponentOfType(DelegatorInterface.class);
       String helperName = delegator.getGroupHelperName("default");
       SQLProcessor sqlProcessor = new SQLProcessor(helperName);
-      // DatasourceInfo datasourceInfo = EntityConfigUtil.getInstance().getDatasourceInfo(helperName);
-      // String schema = datasourceInfo.getSchemaName();
-      // if (schema != null && !schema.isEmpty()) {
-      //    this.schemaName = datasourceInfo.getSchemaName() + ".";
-      // }
 
       return sqlProcessor;
    }
@@ -143,27 +137,10 @@ public class SqlHelper {
       }
    }
 
-//    public String getTableNameForClass(Class<?> clazz) {
-//       String pluginKeyMd5 = MD5UtilIctime.md5Hex("de.iconcept.ictime.jira-ictime");
-//       String className = clazz.getSimpleName();
-//       String lastSixCharactersOfHash = pluginKeyMd5.substring(pluginKeyMd5.length() - 6, pluginKeyMd5.length());
-//       String underscoredCaseClassName = className.replaceAll("(.)([A-Z])", "$1_$2");
-//       String tableName = "AO_" + lastSixCharactersOfHash.toUpperCase() + "_" + underscoredCaseClassName.toUpperCase();
-//       return this.ec(tableName);
-//    }
-
-//    public String getTableNameForClassWithSchema(Class<?> clazz) {
-//       return this.getSchemaName() + this.getTableNameForClass(clazz);
-//    }
-
    public SqlProcessorIct getSqlProcessor() {
       SqlProcessorIct sqlProcessorIct = new SqlProcessorIctImpl();
       return sqlProcessorIct;
    }
-
-   // public String getSchemaName() {
-   //    return this.schemaName;
-   // }
 
    public boolean isOracle() {
       return this.isOracle;

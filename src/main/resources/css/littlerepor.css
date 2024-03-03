@@ -50,6 +50,7 @@
   #reportTable td, #reportTable th {
     border: 1px solid #ddd;
     padding: 8px;
+    z-index: auto;
   }
   
   #reportTable tr:nth-child(even){background-color: #f2f2f2;}
@@ -68,6 +69,7 @@
     padding: auto;
     display: table-cell !important;
     color: white;
+    z-index: auto;
   }
 
   #reportTable td.allignright
@@ -150,6 +152,7 @@
     font-size: 0.875em;
     padding: 0.6em 1em 0.6em 30px;
     white-space: nowrap;
+    clear: both;
 }
 
 .multi-select-legend {
