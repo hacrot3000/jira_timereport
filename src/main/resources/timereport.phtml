@@ -3,51 +3,43 @@
     <title>Little time report</title>
     <meta name="decorator" content="atl.general">
 
-    <style type="text/css">
-      .repot-field-group
-      {
-        width: 100%;
-        float: left;
-        margin-top: 12px;        
-      }
-
-      .repot-field-group * {
-        float: left;
-        margin-left: 12px;
-      }
-
-      .repot-field-group > label
-      {
-        margin-top: 4px;
-      }
-
-      .repot-field-group .button
-      {
-        margin-left: 21px !important;
-      }
-
-      .repot-field-group .icon-date
-      {
-        margin-top: 7px;
-        margin-left: 0;
-      }
-    </style>
+    <link type='text/css' rel='stylesheet' href='$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.css' media='all'>
 
   </head>
   <body>
+  <div class="aui-page-header">
+    <div class="aui-page-header-inner">
+      <div class="aui-page-header-image">
+          <span id="heading-avatar" class="aui-avatar aui-avatar-large aui-avatar-project jira-system-avatar"><span class="aui-avatar-inner">
+            <img id="project-avatar" src="$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/images/pluginLogo.png">
+          </span></span>
+      </div>
+      <div class="aui-page-header-main">
+        <ol class="aui-nav aui-nav-breadcrumbs" resolved="">
+            <li>&nbsp;</li>
+        </ol>
+        <h1 id="summary-val">            
+            <a href="#">Little time report</a>
+        </h1>
+      </div>
+    </div>
+  </div>
+
     <form id="admin" class="aui" action="" method="POST">
 
         <div class="repot-field-group">
-            <label for="selUser">User:</label>
-            <select name="user" id="selUser">
-              <option value="0">All user</option>
+            <label for="selUser">User: $!userId</label>
+            <select name="user" id="selUser" multiple>
               #foreach ($user in $users)
                 #set ($selected="");
-                #if ($!userId == $user.getId())
-                  #set ($selected="selected");
+                #set ($cUserName=$user.getUsername());
+                #foreach ($userId in $userIds)
+                  #if ($!userId == $cUserName)
+                    #set ($selected="selected");
+                  #end
                 #end
 
-              <option value="$user.getId()" $selected>$user.getDisplayName()</option>
+              <option value="$cUserName" $selected>$user.getDisplayName()</option>
               #end
             </select>
 
@@ -59,13 +51,86 @@
             <input class="text medium-field" id="report-end-date-picker" name="endDate" type="text" value="$!endDate" />
             <span id="report-end-date-icon" class="aui-icon icon-date">Select a date</span>
     
-            <input type="submit" value="Create report $!user" class="button">
+            <label for="report-kind">Report type:</label>
+            <select name="kind" id="report-kind">
+                <option value="1">List by action</option>
+                #if ($kind == 2)
+                <option value="2" selected>Summary by user</option>
+                #else
+                <option value="2">Summary by user</option>
+                #end                            
+            </select>
+
+            <input type="submit" value="Create report" class="button">
+
         </div>
 
 
     </form>
 
+    #if (!$issues.isEmpty())
+      <table id="reportTable">
+        <tr>
+          <th class="aui-header">Project key</th>
+          <th class="aui-header">Project name</th>
+          <th class="aui-header">Author</th>
+          #if ($kind == 1)
+          <th class="aui-header">Item summary</th>
+          <th class="aui-header">Work log</th>
+          <th class="aui-header">Date</th>
+          #end
+          <th class="aui-header">Worked time</th>
+        </tr>
+
+        #foreach ($issue in $issues)
+           #set ($WorkLogBodyWithHtml = $issue.getWorkLogBody())
+          <tr>
+            <td>$issue.getProjectKey()</td>
+            <td>$issue.getProjectName()</td>
+            <td>$issue.getAuthor()</td>
+            #if ($kind == 1)
+            <td>$issue.getItemSummary()</td>
+            <td>$WorkLogBodyWithHtml</td>
+            <td class="allignright">$issue.getStartDate()</td>
+            #end
+            <td class="allignright">$issue.getTimeWorked()</td>
+          </tr>          
+        #end
+        <tr>
+        #if ($kind == 1)
+            <td class="allignright report-strong" colspan="6">
+        #else
+        <td class="allignright report-strong" colspan="3">
+        #end
+              Total works time:</td>
+            <td class="allignright report-strong">$totalHourStr</td>
+          </tr>          
+      </table>
+
+    #end
+
+    <footer id="footer" role="contentinfo">
+      <section class="footer-body">
+          <ul class="atlassian-footer">
+            <li>
+                Little time report <a class="seo-link" target="_blank" href="https://www.chuongduong.net">Powered by ChuongDuong</a>
+            </li>
+            <li>
+                <a id="about-link" target="_blank" href="https://www.chuongduong.net/welcome">About me</a>
+            </li>
+            <li>
+                <a id="footer-report-problem-link" target="_blank" rel="nofollow" href="https://github.com/hacrot3000/jira_timereport/issues">Report a problem</a>
+            </li>
+          </ul>
+      </section>
+    </footer>
+
+
+    <script type="text/javascript" src="$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.js"></script>
+
     <script type="text/javascript">
+
+      (function($){
         Calendar.setup({
             firstDay     : 0,       // first day of the week
             inputField   : "report-start-date-picker",     // id of the input field
@@ -91,6 +156,28 @@
             ifFormat     : "%Y-%m-%d",
             timeFormat   : "12"
         });
-    </script>    
+
+        jQuery('#selUser').multiSelect({
+            noneText: 'All users',
+            presets: [
+                {
+                    name: 'All users',
+                    all: true
+                },
+                {
+                    name: 'Active users',
+                    options: [
+                      #foreach ($user in $users)
+                        #if ($user.isActive())
+                        '$user.getUsername()',
+                        #end
+                      #end
+                    ]
+                },
+            ]
+        });
+      }(jQuery));
+
+    </script>
   </body>
 </html>

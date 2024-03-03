@@ -7,15 +7,12 @@
     <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
     <param name="plugin-icon">images/pluginIcon.png</param>  
     <param name="plugin-logo">images/pluginLogo.png</param> 
-
   </plugin-info>  
-  
-  <!-- import from the product container -->
-  <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.TemplateRenderer" filter=""/>
-  <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager" filter=""/>
-  <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider" filter=""/>
-  <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory" filter=""/>
-
+  <!-- import from the product container -->  
+  <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.TemplateRenderer" filter=""/>  
+  <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager" filter=""/>  
+  <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider" filter=""/>  
+  <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory" filter=""/>  
   <!-- add our i18n resource -->  
   <resource type="i18n" name="i18n" location="littlerepor"/>  
   <!-- add our web resources -->  
@@ -39,7 +36,7 @@
   <servlet name="littlerepor" i18n-name-key="littlerepor.name" key="littlerepor" class="little.report.servlet.littlerepor"> 
     <description key="littlerepor.description">The littlerepor Plugin</description>  
     <url-pattern>/littlerepor</url-pattern> 
-  </servlet>
+  </servlet>  
 </atlassian-plugin>
 <!--
     http://localhost:2990/jira/plugins/servlet/littlerepor
