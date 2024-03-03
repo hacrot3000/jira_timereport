@@ -87,6 +87,7 @@
             <th class="aui-header">Author</th>
             #if ($kind == 1)
             <th class="aui-header">Date</th>
+            <th class="aui-header">Item ID</th>
             <th class="aui-header">Item summary</th>
             <th class="aui-header">Work log</th>
             #end
@@ -101,6 +102,11 @@
               <td>$issue.getAuthor()</td>
               #if ($kind == 1)
               <td class="allignright">$issue.getStartDate()</td>
+              <td>
+                <a href="$baseUrl/browse/$issue.getProjectKey()-$issue.getItemId()">
+                $issue.getProjectKey()-$issue.getItemId()
+                </a>
+              </td>
               <td>$issue.getItemSummary()</td>
               <td>$WorkLogBodyWithHtml</td>
               #end
@@ -109,7 +115,7 @@
           #end
           <tr>
           #if ($kind == 1)
-              <td class="allignright report-strong" colspan="6">
+              <td class="allignright report-strong" colspan="7">
           #else
           <td class="allignright report-strong" colspan="3">
           #end

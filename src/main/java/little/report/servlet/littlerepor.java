@@ -150,7 +150,7 @@ public class littlerepor extends HttpServlet{
                 if (kind == 1)
                 {
                     sql = "" +
-                        "SELECT p.pkey, p.pname, i.ID, i.SUMMARY, w.AUTHOR, w.STARTDATE, w.worklogbody, w.timeworked " +
+                        "SELECT p.pkey, p.pname, i.ISSUENUM ID, i.SUMMARY, w.AUTHOR, w.STARTDATE, w.worklogbody, w.timeworked " +
                         "FROM worklog w " +
                         "LEFT JOIN jiraissue i on w.issueid = i.id " +
                         "LEFT JOIN project p on p.ID = i.PROJECT " +
