@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.net.URI;
+
 import org.ofbiz.core.entity.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -79,6 +81,13 @@ public class littlerepor extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException
     {
+		String username = userManager.getRemoteUsername(req);
+		if (username == null)// || !userManager.isSystemAdmin(username)
+		{
+			redirectToLogin(req, response);
+			return;
+		}
+
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");                  
         String userIds[] = req.getParameterValues("user");
@@ -250,6 +259,21 @@ public class littlerepor extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         this.doGet(req, res);
      }
-  
+
+     private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
+     {
+         response.sendRedirect(loginUriProvider.getLoginUri(getUri(request)).toASCIIString());
+     }
+
+     private URI getUri(HttpServletRequest request)
+     {
+         StringBuffer builder = request.getRequestURL();
+         if (request.getQueryString() != null)
+         {
+             builder.append("?");
+             builder.append(request.getQueryString());
+         }
+         return URI.create(builder.toString());
+     }     
 
 }
