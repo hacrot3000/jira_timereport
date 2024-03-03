@@ -3,7 +3,7 @@
     <title>Little time report</title>
     <meta name="decorator" content="atl.general">
 
-    <link type='text/css' rel='stylesheet' href='$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.css?v=4' media='all'>
+    <link type='text/css' rel='stylesheet' href='$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.css?v=5' media='all'>
 
   </head>
   <body>
@@ -155,7 +155,7 @@
     </footer>
 
 
-    <script type="text/javascript" src="$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.js"></script>
+    <script type="text/javascript" src="$baseUrl/download/resources/little.report.littlerepor:littlerepor-resources/littlerepor.js?v=5"></script>
 
     <script type="text/javascript">
 
@@ -239,8 +239,10 @@
           }
         });
 
-        jQuery("#report-period").val(6);
-        jQuery("#report-period").change();
+        #if (!$takingSearch)
+          jQuery("#report-period").val(6);
+          jQuery("#report-period").change();
+        #end
 
       }(jQuery));
 
